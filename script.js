@@ -1,13 +1,11 @@
-
-
-
 const FilterContainer = document.querySelector(".filters")
 const imgInput = document.querySelector("#image-input")
 const imageCanvas = document.querySelector("#image-canvas")
 const canvasctx = imageCanvas.getContext("2d")
 const resbtn = document.querySelector("#reset-btn")
+const downbtn = document.querySelector("#download-btn")
+let count = 0;
 let file = null;
-let image1 = null;
 let image = null;
 let ogw, ogh;
 let aspratio;
@@ -70,15 +68,7 @@ const relp = {
         unit: "%"
     },
 }
-// const relpcrop = {
-//     crop: {
-//         value: ogw,
-//         max: Math.min(ogw, ogh * aspratio),
-//         min: 20,
-//         unit: "px",
 
-//     }
-// };
 
 
 const filters = {
@@ -234,7 +224,7 @@ imgInput.addEventListener("change", (event) => {
     imageCanvas.style.display = "block"
     const img = new Image()
     img.src = URL.createObjectURL(file)
-    image1 = img;
+
 
 
     img.onload = () => {
@@ -304,6 +294,7 @@ function resetFun() {
             const filterid = document.getElementById(key)
             filterid.value = filters[key].value;
             applyFilters();
+
         })
 
 
@@ -318,6 +309,24 @@ function resetFun() {
 }
 resetFun()
 
+
+downbtn.addEventListener("click", () => {
+
+    const url = imageCanvas.toDataURL("image/png");
+    let a = document.createElement("a");
+    a.href = url;
+    if (count == 0) {
+        a.download = `edited.png`;
+    }
+    else {
+        a.download = `edited${count}.png`;
+    }
+
+
+    a.click();
+    count++;
+
+})
 
 
 
